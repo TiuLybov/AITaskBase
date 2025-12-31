@@ -1,0 +1,4 @@
+_target_: train_test_split.train_test_split
+_partial_: true
+random_sample: ${union_random_seed}
+percent_test: 0.2
