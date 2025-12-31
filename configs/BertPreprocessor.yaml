@@ -1,11 +1,23 @@
 defaults:
-  - dataset: Dataset.yaml
-  - train_test_split: train_test_split.yaml
+  - datasets: Dataset
+  - train_test_split: train_test_split
   - _self_
-random_sample: ${union_random_seed}
+union_random_seed: 123
 bert_model: DeepPavlov/rubert-base-cased
 batch_size: 1024
 max_length: 512
+
+mlflow:
+  experiment_name: "mlp_task_classifier"
+  run_name: "baseline_v3"
+  uri: "http://127.0.0.1:5000"
+
+s3:
+  bucket: task-ai-creator
+  path_to_download: tasks_from_31_12_2025/task_6.parquet
+  path_to_save: task_6.parquet
+  path_to_encoded_train_data: encodeds_2/encoded_train_data.pt
+  path_to_encoded_test_data: encodeds_2/encoded_test_data.pt
 
 save_encoded_train: encoded_train_data.pt
 save_encoded_test: encoded_test_data.pt
