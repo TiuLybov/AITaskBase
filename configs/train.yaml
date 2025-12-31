@@ -1,0 +1,69 @@
+model: MLP #Или CatBoost
+
+path_to_encoded_train: encoded_train_data.pt
+path_to_encoded_test: encoded_test_data.pt
+path_to_train_labels: train_labels.json
+path_to_test_labels: test_labels.json
+save_model_path: model_mlp.pt
+
+s3:
+  bucket: task-ai-creator
+  train_path_to_download: encodeds/encoded_train_data.pt
+  test_path_to_download: encodeds/encoded_test_data.pt
+  path_to_upload: scores/scores.json
+
+mlflow:
+  experiment_name: "mlp_task_classifier"
+  run_name: "baseline_v3"
+  uri: "http://127.0.0.1:5000"
+
+init_params:
+  bert_model: DeepPavlov/rubert-base-cased
+  batch_size: 32
+  num_workers: 1
+
+fit_params:
+  linear_shape: 768 #Размер от берта
+  dropout: 0.3
+  num_epoch: 1
+  accumalation_steps: 2
+  lr: 0.00002
+
+metrics:
+  train_data:
+    prefix: train_data_
+    log_to_mlflow: true
+    metrics:
+      - name: accuracy
+      - name: f1
+        params:
+          average: macro
+      - name: f1
+        params:
+          average: weighted
+      - name: auc
+        params:
+            average: macro
+            multi_class: ovr
+      - name: logloss
+
+  test_data:
+    prefix: test_data_
+    log_to_mlflow: true
+    metrics:
+      - accuracy
+      - name: f1
+        params:
+          average: macro
+      - name: f1
+        params:
+          average: weighted
+      - name: auc
+        params:
+          average: macro
+          multi_class: ovr
+      - name: logloss
+
+
+
+
