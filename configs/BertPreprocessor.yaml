@@ -1,0 +1,13 @@
+defaults:
+  - dataset: Dataset.yaml
+  - train_test_split: train_test_split.yaml
+  - _self_
+random_sample: ${union_random_seed}
+bert_model: DeepPavlov/rubert-base-cased
+batch_size: 1024
+max_length: 512
+
+save_encoded_train: encoded_train_data.pt
+save_encoded_test: encoded_test_data.pt
+save_train_labels: train_labels.json
+save_test_labels: test_labels.json
